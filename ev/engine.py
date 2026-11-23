@@ -306,7 +306,7 @@ class Video:
         global _VIDEO
         _VIDEO = self
         os.makedirs(os.path.dirname(out) or ".", exist_ok=True)
-        if self.voice and self.cues():
+        if self.voice and self.cues() and not os.environ.get("EV_NOVOICE"):
             wav = os.path.splitext(out)[0] + "_voice.wav"
             print("Sprachspur:")
             self.build_voice(wav)

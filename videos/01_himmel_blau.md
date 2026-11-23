@@ -2,7 +2,7 @@
 
 Länge: 58.6 s · Format: 9:16 (1080×1920) · Datei: `output/01_himmel_blau.mp4`
 
-## Sprechertext (ist als Stimme im Video eingebaut)
+## Sprechertext (im Video eingebaut; für CapCut: output/01_himmel_blau_ohne_stimme.mp4)
 
 | Zeit | Text |
 |---|---|

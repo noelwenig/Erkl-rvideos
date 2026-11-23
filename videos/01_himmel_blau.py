@@ -279,6 +279,7 @@ if __name__ == "__main__":
             VIDEO.still(float(ts), os.path.join(d, f"t{float(ts):05.1f}.png"))
         print("Stills in", d)
     else:
-        out = os.path.join(ROOT, "output", name + ".mp4")
+        suffix = "_ohne_stimme" if os.environ.get("EV_NOVOICE") else ""
+        out = os.path.join(ROOT, "output", name + suffix + ".mp4")
         VIDEO.render(out)
         VIDEO.still(2.8, os.path.join(ROOT, "output", name + "_cover.png"))
