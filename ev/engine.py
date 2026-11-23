@@ -401,3 +401,37 @@ class Video:
         ff.stdin.close()
         ff.wait()
         print("fertig:", out)
+
+
+def cli(video, file, cover_t=2.0):
+    """Standard-Kommandozeile für ein Video-Skript.
+
+    (ohne Option)  ElevenLabs-Stimme (Brian), Animationen passen sich an
+    --piper        Offline-Stimme Piper
+    --stills [t…]  Vorschaubilder
+    """
+    import sys
+    root = os.path.dirname(os.path.dirname(os.path.abspath(file)))
+    name = os.path.splitext(os.path.basename(file))[0]
+    out_dir = os.path.join(root, "output")
+    if "--stills" in sys.argv:
+        d = os.path.join(out_dir, name + "_stills")
+        os.makedirs(d, exist_ok=True)
+        ts = sys.argv[sys.argv.index("--stills") + 1:] or [
+            round(video.duration * k / 8 + 1, 1) for k in range(8)]
+        for t in ts:
+            video.still(float(t), os.path.join(d, f"t{float(t):05.1f}.png"))
+        print("Stills in", d)
+        return
+    out = os.path.join(out_dir, name + ".mp4")
+    if "--piper" in sys.argv:
+        video.render(out)
+    else:
+        from ev import tts
+        tts.BACKEND = "elevenlabs"
+        os.makedirs(out_dir, exist_ok=True)
+        wav = os.path.join(out_dir, name + "_voice.wav")
+        print("Sprachspur (ElevenLabs):")
+        video.fit_to_voice(wav)
+        video.render(out, audio=wav)
+    video.still(cover_t, os.path.join(out_dir, name + "_cover.png"))
