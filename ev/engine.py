@@ -311,8 +311,24 @@ class Video:
         """Sätze lückenlos (mit kurzen Pausen) hintereinander legen und die
         Animationen per Zeitverzerrung an dieses Sprechtempo anpassen."""
         import wave as _wave
-        from ev.tts import clips_for
+        from ev import tts
         cues = self.cues()
+        if tts.BACKEND == "elevenlabs":
+            # ein Durchgang, Absatz = Szene -> natürliche, durchgehende Erzählung
+            paras = [[txt for _, txt in cs] for _, _, cs in self.scenes if cs]
+            data, sr, starts, end = tts.narrate(paras)
+            with _wave.open(wav, "wb") as w:
+                w.setnchannels(1)
+                w.setsampwidth(2)
+                w.setframerate(sr)
+                pad = np.zeros(int(tail * sr), np.int16)
+                w.writeframes(np.concatenate([data, pad]).tobytes())
+            starts = [max(0.0, s - 0.05) for s in starts]
+            self.fit_to_audio(starts, len(data) / sr, tail)
+            for st, (_, txt) in zip(starts, cues):
+                print(f"  {st:5.2f}s  {txt}")
+            return starts
+        clips_for = tts.clips_for
         clips = clips_for(cues)
         sr = clips[0][1]
         # Szenenwechsel zwischen zwei Sätzen -> etwas längere Pause

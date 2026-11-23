@@ -1,6 +1,6 @@
 # Folge 1: Warum ist der Himmel blau?
 
-Länge: 62,5 s · Format: 9:16 (1080×1920) · Datei: `output/01_himmel_blau.mp4`
+Länge: 56,3 s · Format: 9:16 (1080×1920) · Datei: `output/01_himmel_blau.mp4`
 
 ## Sprechertext (im Video eingebaut; für CapCut: output/01_himmel_blau_ohne_stimme.mp4)
 
@@ -27,7 +27,6 @@ Länge: 62,5 s · Format: 9:16 (1080×1920) · Datei: `output/01_himmel_blau.mp4
 | 0:46.9 | Das Blau ist unterwegs weggestreut. Rot und Orange bleiben übrig. |
 | 0:51.2 | Hättest du es gewusst? |
 | 0:52.7 | Folge für mehr: Warum eigentlich? |
-| 0:54.9 | Nächstes Mal: Warum sind Sonnenuntergänge auf dem Mars blau? |
 
 ## TikTok-Beschreibung
 

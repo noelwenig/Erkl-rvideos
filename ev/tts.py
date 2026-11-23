@@ -91,6 +91,52 @@ def say(text, prev=None, nxt=None):
     return data, sr
 
 
+def narrate(paragraphs):
+    """ElevenLabs: ganzen Text in EINEM Durchgang sprechen (durchgehende Betonung).
+
+    paragraphs: Liste von Absätzen, jeder eine Liste von Sätzen.
+    -> (samples int16, sr, [startzeit jedes Satzes], endzeit_letzter_laut)
+    """
+    import base64
+    import json
+    import subprocess
+    import urllib.request
+    text, offsets = "", []
+    for pi, sents in enumerate(paragraphs):
+        if pi:
+            text += "\n\n"
+        for si, sent in enumerate(sents):
+            if si:
+                text += " "
+            offsets.append(len(text))
+            text += sent
+    os.makedirs(CACHE, exist_ok=True)
+    key = hashlib.sha1(f"narr|{EL_VOICE}|{EL_MODEL}|{text}".encode()).hexdigest()[:16]
+    jpath = os.path.join(CACHE, key + ".json")
+    if not os.path.exists(jpath):
+        req = urllib.request.Request(
+            f"https://api.elevenlabs.io/v1/text-to-speech/{EL_VOICE}/with-timestamps"
+            "?output_format=mp3_44100_128",
+            data=json.dumps({"text": text, "model_id": EL_MODEL, "language_code": "de"}).encode(),
+            headers={"Content-Type": "application/json",
+                     "xi-api-key": os.environ.get("ELEVENLABS_API_KEY", "proxy-injected")})
+        with urllib.request.urlopen(req, timeout=300) as r:
+            open(jpath, "wb").write(r.read())
+    res = json.load(open(jpath))
+    mp3 = base64.b64decode(res["audio_base64"])
+    pcm = subprocess.run(["ffmpeg", "-loglevel", "error", "-i", "pipe:0", "-ac", "1", "-ar", "44100",
+                          "-f", "s16le", "pipe:1"], input=mp3, capture_output=True, check=True).stdout
+    data = np.frombuffer(pcm, np.int16)
+    al = res.get("normalized_alignment") or res["alignment"]
+    chars, st, en = al["characters"], al["character_start_times_seconds"], al["character_end_times_seconds"]
+    if "".join(chars) != text:  # Fallback: Zuordnung über Originaltext
+        al = res["alignment"]
+        chars, st, en = al["characters"], al["character_start_times_seconds"], al["character_end_times_seconds"]
+    assert "".join(chars) == text, "Zeitstempel passen nicht zum Text"
+    starts = [st[o] for o in offsets]
+    return data, 44100, starts, max(en)
+
+
 def clips_for(cues):
     """Alle Sätze erzeugen (mit Kontext davor/danach) -> [(samples, sr), ...]."""
     texts = [t for _, t in cues]

@@ -242,8 +242,6 @@ def s8_outro(t):
     cv = canvas(DARK)
     caption(cv, t, 0.1, 9, "Hättest du's *gewusst*?", 760, size=110)
     caption(cv, t, 1.6, 9, "Folge für mehr *Warum eigentlich?*", 1010, size=66)
-    caption(cv, t, 3.8, 9, "Nächstes Mal: Warum sind Sonnenuntergänge auf dem Mars *blau*?",
-            1260, size=52, hl=BLUE, weight="bold")
     return cv
 
 
@@ -267,9 +265,8 @@ VIDEO = Video([
     (8.8, s7_sunset, [(0.3, "Und beim Sonnenuntergang?"),
                       (2.1, "Das Licht muss einen viel längeren Weg durch die Luft."),
                       (4.7, "Das Blau ist unterwegs weggestreut. Rot und Orange bleiben übrig.")]),
-    (7.6, s8_outro, [(0.2, "Hättest du es gewusst?"),
-                     (1.7, "Folge für mehr: Warum eigentlich?"),
-                     (3.9, "Nächstes Mal: Warum sind Sonnenuntergänge auf dem Mars blau?")]),
+    (4.2, s8_outro, [(0.2, "Hättest du es gewusst?"),
+                     (1.7, "Folge für mehr: Warum eigentlich?")]),
 ])
 
 if __name__ == "__main__":
