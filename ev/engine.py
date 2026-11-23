@@ -307,6 +307,40 @@ class Video:
     def still(self, t, path):
         self.image(t).save(path)
 
+    def fit_to_voice(self, wav, gap=0.25, scene_gap=0.45, lead=0.15, tail=1.2):
+        """Sätze lückenlos (mit kurzen Pausen) hintereinander legen und die
+        Animationen per Zeitverzerrung an dieses Sprechtempo anpassen."""
+        import wave as _wave
+        from ev.tts import clips_for
+        cues = self.cues()
+        clips = clips_for(cues)
+        sr = clips[0][1]
+        # Szenenwechsel zwischen zwei Sätzen -> etwas längere Pause
+        bounds, acc = [], 0.0
+        for d, _, _ in self.scenes:
+            acc += d
+            bounds.append(acc)
+        starts, t = [], lead
+        for i, ((orig, _), (data, _)) in enumerate(zip(cues, clips)):
+            if i:
+                cut = any(cues[i - 1][0] < b <= orig for b in bounds)
+                t += scene_gap if cut else gap
+            starts.append(t)
+            t += len(data) / sr
+        track = np.zeros(int((t + tail) * sr), np.int32)
+        for st, (data, _) in zip(starts, clips):
+            a = int(st * sr)
+            track[a:a + len(data)] += data
+        with _wave.open(wav, "wb") as w:
+            w.setnchannels(1)
+            w.setsampwidth(2)
+            w.setframerate(sr)
+            w.writeframes(np.clip(track, -32768, 32767).astype(np.int16).tobytes())
+        self.fit_to_audio(starts, t, tail)
+        for st, (_, txt) in zip(starts, cues):
+            print(f"  {st:5.2f}s  {txt}")
+        return starts
+
     def build_voice(self, wav):
         from ev.tts import voice_track
         rep = voice_track(self.cues(), self.duration, wav)

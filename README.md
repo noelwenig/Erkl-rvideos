@@ -12,6 +12,15 @@ Andere Stimme: `EV_VOICE=kerstin`, Sprechtempo: `EV_SPEED=0.92` (kleiner = schne
 |---|---|---|---|
 | 1 | Warum ist der Himmel blau? | `output/01_himmel_blau.mp4` | `videos/01_himmel_blau.md` |
 
+## Stimme
+- **ElevenLabs (Standard für TikTok):** `python3 videos/01_himmel_blau.py --elevenlabs`
+  Stimme „Brian“ (`EV_EL_VOICE=<voice_id>` für eine andere), Modell `eleven_v4`, Deutsch.
+  Jeder Satz wird einzeln erzeugt (mit Kontext davor/danach), danach passen sich die
+  Animationen automatisch dem Sprechtempo an. Der API-Schlüssel wird von der Cloud-Umgebung
+  eingespeist; lokal `ELEVENLABS_API_KEY` setzen. Erzeugte Sätze werden in `voices/cache/` gespeichert.
+- **Piper (offline, kostenlos):** `python3 videos/01_himmel_blau.py`
+- **Eigene Aufnahme / CapCut:** `--capcut` (Satzanfänge in `videos/*_capcut.json`)
+
 ## Rendern
 ```bash
 python3 videos/01_himmel_blau.py            # fertiges MP4 + Cover nach output/

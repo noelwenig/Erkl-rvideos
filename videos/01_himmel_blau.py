@@ -2,6 +2,7 @@
 
 Rendern:   python3 videos/01_himmel_blau.py
 Vorschau:  python3 videos/01_himmel_blau.py --stills
+ElevenLabs: python3 videos/01_himmel_blau.py --elevenlabs   (Stimme Brian)
 CapCut:    python3 videos/01_himmel_blau.py --capcut   (Ton aus assets/, Zeiten aus *_capcut.json)
 """
 import math
@@ -279,6 +280,16 @@ if __name__ == "__main__":
         for ts in sys.argv[sys.argv.index("--stills") + 1:] or [3, 9, 15, 24, 31, 40, 48, 53]:
             VIDEO.still(float(ts), os.path.join(d, f"t{float(ts):05.1f}.png"))
         print("Stills in", d)
+    elif "--elevenlabs" in sys.argv:
+        # ElevenLabs-Stimme (Standard: Brian); Animationen passen sich dem Sprechtempo an
+        os.environ["EV_TTS"] = "elevenlabs"
+        import ev.tts
+        ev.tts.BACKEND = "elevenlabs"
+        wav = os.path.join(ROOT, "output", name + "_voice.wav")
+        print("Sprachspur (ElevenLabs):")
+        VIDEO.fit_to_voice(wav)
+        VIDEO.render(os.path.join(ROOT, "output", name + ".mp4"), audio=wav)
+        VIDEO.still(2.0, os.path.join(ROOT, "output", name + "_cover.png"))
     elif "--capcut" in sys.argv:
         # eigene Sprachaufnahme (z. B. aus CapCut): Animationen werden daran angepasst
         import json

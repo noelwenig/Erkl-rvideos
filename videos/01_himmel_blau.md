@@ -1,6 +1,6 @@
 # Folge 1: Warum ist der Himmel blau?
 
-Länge: 58.6 s · Format: 9:16 (1080×1920) · Datei: `output/01_himmel_blau.mp4`
+Länge: 62,5 s · Format: 9:16 (1080×1920) · Datei: `output/01_himmel_blau.mp4`
 
 ## Sprechertext (im Video eingebaut; für CapCut: output/01_himmel_blau_ohne_stimme.mp4)
 
@@ -35,5 +35,5 @@ Länge: 58.6 s · Format: 9:16 (1080×1920) · Datei: `output/01_himmel_blau.mp4
 
 ## Hinweise zum Hochladen
 - Musik direkt in TikTok aus der Musikbibliothek wählen (leise, ~10–20 %).
-- Die Stimme (Piper „Thorsten“) ist schon drin. Musik in TikTok leise darunterlegen.
+- Die Stimme (ElevenLabs „Brian“) ist schon drin. Musik in TikTok leise darunterlegen.
 - Titelbild: `output/01_himmel_blau_cover.png` bzw. Sekunde 0–3 als Cover wählen.
