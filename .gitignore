@@ -2,3 +2,5 @@ output/*_stills/
 __pycache__/
 voices/
 *_voice.wav
+.env
+.env.local
