@@ -269,6 +269,20 @@ class Video:
         self.duration = sum(d for d, _, _ in self.scenes)
         self.n = int(round(self.duration * FPS))
         self.voice = voice
+        self.timemap = None  # [(neue_zeit, original_zeit), ...] für externe Tonspur
+
+    def fit_to_audio(self, starts, audio_end, tail=1.0):
+        """Animationen an eine fremde Sprachaufnahme anpassen.
+
+        starts: Startzeit jedes Satzes (in self.cues()-Reihenfolge) in der Aufnahme.
+        Zwischen den Satzanfängen wird die Zeit linear gestreckt/gestaucht.
+        """
+        orig = [t for t, _ in self.cues()]
+        assert len(starts) == len(orig), f"{len(starts)} Zeiten für {len(orig)} Sätze"
+        new_end = audio_end + tail
+        self.timemap = [(0.0, 0.0)] + list(zip(starts, orig)) + [(new_end, self.duration - 1e-3)]
+        self.duration = new_end
+        self.n = int(round(new_end * FPS))
 
     def cues(self):
         acc, out = 0.0, []
@@ -285,7 +299,10 @@ class Video:
             acc += d
 
     def frame_bytes(self, i):
-        return self.image(i / FPS).tobytes()
+        t = i / FPS
+        if self.timemap:
+            t = float(np.interp(t, *zip(*self.timemap)))
+        return self.image(t).tobytes()
 
     def still(self, t, path):
         self.image(t).save(path)
@@ -302,11 +319,14 @@ class Video:
             print(f"  WARNUNG: {bad} Satz/Sätze überlappen.")
         return rep
 
-    def render(self, out, workers=None):
+    def render(self, out, workers=None, audio=None):
         global _VIDEO
         _VIDEO = self
         os.makedirs(os.path.dirname(out) or ".", exist_ok=True)
-        if self.voice and self.cues() and not os.environ.get("EV_NOVOICE"):
+        if audio:
+            audio_in = ["-i", audio]
+            afilter = ["-af", "loudnorm=I=-15:TP=-1.5:LRA=11,aresample=44100", "-ac", "2"]
+        elif self.voice and self.cues() and not os.environ.get("EV_NOVOICE"):
             wav = os.path.splitext(out)[0] + "_voice.wav"
             print("Sprachspur:")
             self.build_voice(wav)

@@ -2,6 +2,7 @@
 
 Rendern:   python3 videos/01_himmel_blau.py
 Vorschau:  python3 videos/01_himmel_blau.py --stills
+CapCut:    python3 videos/01_himmel_blau.py --capcut   (Ton aus assets/, Zeiten aus *_capcut.json)
 """
 import math
 import os
@@ -278,6 +279,13 @@ if __name__ == "__main__":
         for ts in sys.argv[sys.argv.index("--stills") + 1:] or [3, 9, 15, 24, 31, 40, 48, 53]:
             VIDEO.still(float(ts), os.path.join(d, f"t{float(ts):05.1f}.png"))
         print("Stills in", d)
+    elif "--capcut" in sys.argv:
+        # eigene Sprachaufnahme (z. B. aus CapCut): Animationen werden daran angepasst
+        import json
+        cfg = json.load(open(os.path.join(ROOT, "videos", name + "_capcut.json")))
+        VIDEO.fit_to_audio(cfg["starts"], cfg["audio_end"])
+        VIDEO.render(os.path.join(ROOT, "output", name + "_capcut.mp4"),
+                     audio=os.path.join(ROOT, cfg["audio"]))
     else:
         suffix = "_ohne_stimme" if os.environ.get("EV_NOVOICE") else ""
         out = os.path.join(ROOT, "output", name + suffix + ".mp4")
