@@ -1,2 +1,4 @@
 output/*_stills/
 __pycache__/
+voices/
+*_voice.wav

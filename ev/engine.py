@@ -263,15 +263,24 @@ def _render(i):
 
 
 class Video:
-    def __init__(self, scenes):
-        self.scenes = scenes  # [(dauer, fn), ...]
-        self.duration = sum(d for d, _ in scenes)
+    def __init__(self, scenes, voice=True):
+        # scenes: [(dauer, fn) oder (dauer, fn, [(zeit_in_szene, sprechertext), ...]), ...]
+        self.scenes = [(sc[0], sc[1], sc[2] if len(sc) > 2 else []) for sc in scenes]
+        self.duration = sum(d for d, _, _ in self.scenes)
         self.n = int(round(self.duration * FPS))
+        self.voice = voice
+
+    def cues(self):
+        acc, out = 0.0, []
+        for d, _, cs in self.scenes:
+            out += [(acc + t, txt) for t, txt in cs]
+            acc += d
+        return out
 
     def image(self, t):
         acc = 0.0
-        for d, fn in self.scenes:
-            if t < acc + d or (d, fn) == self.scenes[-1]:
+        for k, (d, fn, _) in enumerate(self.scenes):
+            if t < acc + d or k == len(self.scenes) - 1:
                 return fn(min(t - acc, d - 1e-6)).reduce(S).convert("RGB")
             acc += d
 
@@ -281,16 +290,38 @@ class Video:
     def still(self, t, path):
         self.image(t).save(path)
 
+    def build_voice(self, wav):
+        from ev.tts import voice_track
+        rep = voice_track(self.cues(), self.duration, wav)
+        bad = 0
+        for a, e, overlap, txt in rep:
+            flag = "  <-- ZU LANG, überlappt!" if overlap else ""
+            bad += overlap
+            print(f"  {a:5.2f}-{e:5.2f}s  {txt}{flag}")
+        if bad:
+            print(f"  WARNUNG: {bad} Satz/Sätze überlappen.")
+        return rep
+
     def render(self, out, workers=None):
         global _VIDEO
         _VIDEO = self
         os.makedirs(os.path.dirname(out) or ".", exist_ok=True)
+        if self.voice and self.cues():
+            wav = os.path.splitext(out)[0] + "_voice.wav"
+            print("Sprachspur:")
+            self.build_voice(wav)
+            audio_in = ["-i", wav]
+            afilter = ["-af", "highpass=f=70,loudnorm=I=-15:TP=-1.5:LRA=11,aresample=44100",
+                       "-ac", "2"]
+        else:
+            audio_in = ["-f", "lavfi", "-i", "anullsrc=r=44100:cl=stereo"]
+            afilter = []
         cmd = ["ffmpeg", "-y", "-loglevel", "error",
                "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-",
-               "-f", "lavfi", "-i", "anullsrc=r=44100:cl=stereo",
-               "-map", "0:v", "-map", "1:a", "-shortest",
+               *audio_in,
+               "-map", "0:v", "-map", "1:a", "-t", f"{self.duration:.3f}",
                "-c:v", "libx264", "-preset", "medium", "-crf", "18", "-pix_fmt", "yuv420p",
-               "-c:a", "aac", "-b:a", "128k", "-movflags", "+faststart", out]
+               *afilter, "-c:a", "aac", "-b:a", "160k", "-movflags", "+faststart", out]
         ff = subprocess.Popen(cmd, stdin=subprocess.PIPE)
         with Pool(workers or os.cpu_count()) as pool:
             for k, b in enumerate(pool.imap(_render, range(self.n), chunksize=6)):

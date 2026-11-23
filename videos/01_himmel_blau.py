@@ -89,12 +89,12 @@ def wave(p, t, y, amp, wl, color, reveal, speed=160):
 def s3_wellen(t):
     cv = canvas(DARK)
     p = Pen(cv)
-    wave(p, t, 1000, 70, 380, RED, ease_out(prog(t, 0.8, 1.9)))
-    wave(p, t, 1350, 70, 120, BLUE, ease_out(prog(t, 2.6, 3.7)))
-    caption(cv, t, 1.0, 9, "Rot: *lange* Welle", 860, size=58, hl=RED)
-    caption(cv, t, 2.8, 9, "Blau: *kurze* Welle", 1210, size=58, hl=BLUE)
-    caption(cv, t, 0.2, 4.6, "Jede Farbe ist eine *Welle*", 480)
-    caption(cv, t, 4.6, 9, "Und genau das macht den *Unterschied*…", 480)
+    wave(p, t, 1000, 70, 380, RED, ease_out(prog(t, 1.6, 2.6)))
+    wave(p, t, 1350, 70, 120, BLUE, ease_out(prog(t, 3.0, 4.0)))
+    caption(cv, t, 1.7, 9, "Rot: *lange* Welle", 860, size=58, hl=RED)
+    caption(cv, t, 3.0, 9, "Blau: *kurze* Welle", 1210, size=58, hl=BLUE)
+    caption(cv, t, 0.2, 4.7, "Jede Farbe ist eine *Welle*", 480)
+    caption(cv, t, 4.7, 9, "Und genau das macht den *Unterschied*…", 480)
     return cv
 
 
@@ -149,16 +149,16 @@ def s4_streuung(t):
             if 0 < k < 1:
                 p.circle(ph["sx"], ph["y"], 12 + 40 * k, None, mix(BLUE, "#1b3a7a", k), 4)
     # Legende
-    la = prog(t, 3.4, 3.7)
+    la = prog(t, 2.8, 3.1)
     if la > 0:
         lg = Pen(cv)
         lg.circle(190, 790, 14, RED)
         lg.circle(600, 790, 14, BLUE)
         place(cv, text_sprite("fliegt durch", 42, weight="bold", stroke=6), 340, 790, alpha=la)
         place(cv, text_sprite("wird gestreut", 42, weight="bold", stroke=6), 765, 790, alpha=la)
-    caption(cv, t, 0.2, 3.4, "Die Luft ist voller winziger *Teilchen*", 480)
-    caption(cv, t, 3.4, 6.9, "*Blaues* Licht prallt daran ab und wird *verstreut*", 480, size=78)
-    caption(cv, t, 6.9, 11, "Blau sogar fast *6-mal* stärker als Rot!", 480, size=80)
+    caption(cv, t, 0.2, 2.8, "Die Luft ist voller winziger *Teilchen*", 480)
+    caption(cv, t, 2.8, 6.7, "*Blaues* Licht prallt daran ab und wird *verstreut*", 480, size=78)
+    caption(cv, t, 6.7, 11, "Blau sogar fast *6-mal* stärker als Rot!", 480, size=80)
     return cv
 
 
@@ -210,11 +210,11 @@ def card(cv, t, start, y, text):
 
 def s6_lila(t):
     cv = canvas(VIOLET_BG)
-    caption(cv, t, 0.1, 2.9, "Aber Moment: *Violett* wird sogar noch *stärker* gestreut!", 520,
+    caption(cv, t, 0.1, 3.1, "Aber Moment: *Violett* wird sogar noch *stärker* gestreut!", 520,
             size=78, hl=PURPLE)
-    caption(cv, t, 2.9, 9, "Warum ist der Himmel dann nicht *lila*?", 500, size=82, hl=PURPLE)
-    card(cv, t, 3.9, 900, "1. Die Sonne strahlt *weniger Violett* ab")
-    card(cv, t, 5.6, 1160, "2. Unsere Augen sehen *Blau* viel besser")
+    caption(cv, t, 3.1, 11, "Warum ist der Himmel dann nicht *lila*?", 500, size=82, hl=PURPLE)
+    card(cv, t, 5.0, 900, "1. Die Sonne strahlt *weniger Violett* ab")
+    card(cv, t, 7.6, 1160, "2. Unsere Augen sehen *Blau* viel besser")
     return cv
 
 
@@ -222,15 +222,15 @@ def s6_lila(t):
 def s7_sunset(t):
     k = ease_in_out(prog(t, 0.3, 3.5))
     cv = blend_canvas(SKY, SUNSET, k)
-    sy = lerp(1000, 1530, ease_in_out(prog(t, 0.3, 7.5)))
+    sy = lerp(1000, 1530, ease_in_out(prog(t, 0.3, 8.0)))
     col = mix("#FFF3B0", "#FF7A3D", k)
     sun(cv, 540, sy, 120, color=col, glow_r=460, glow_a=0.9)
     p = Pen(cv)
     p.poly([(0, 1540), (220, 1490), (480, 1535), (760, 1480), (1080, 1525),
             (1080, 1920), (0, 1920)], "#1a0f2e")
-    caption(cv, t, 0.2, 2.8, "Und beim *Sonnenuntergang*?", 480, size=88)
-    caption(cv, t, 2.8, 5.6, "Das Licht muss einen *viel längeren Weg* durch die Luft", 480, size=78)
-    caption(cv, t, 5.6, 9, "Das Blau ist unterwegs weggestreut – *Rot & Orange* bleiben übrig",
+    caption(cv, t, 0.2, 2.0, "Und beim *Sonnenuntergang*?", 480, size=88)
+    caption(cv, t, 2.0, 4.6, "Das Licht muss einen *viel längeren Weg* durch die Luft", 480, size=78)
+    caption(cv, t, 4.6, 9, "Das Blau ist unterwegs weggestreut – *Rot & Orange* bleiben übrig",
             480, size=74)
     return cv
 
@@ -239,21 +239,35 @@ def s7_sunset(t):
 def s8_outro(t):
     cv = canvas(DARK)
     caption(cv, t, 0.1, 9, "Hättest du's *gewusst*?", 760, size=110)
-    caption(cv, t, 1.0, 9, "Folge für mehr *Warum eigentlich?*", 1010, size=66)
-    caption(cv, t, 2.0, 9, "Nächstes Mal: Warum sind Sonnenuntergänge auf dem Mars *blau*?",
+    caption(cv, t, 1.6, 9, "Folge für mehr *Warum eigentlich?*", 1010, size=66)
+    caption(cv, t, 3.8, 9, "Nächstes Mal: Warum sind Sonnenuntergänge auf dem Mars *blau*?",
             1260, size=52, hl=BLUE, weight="bold")
     return cv
 
 
 VIDEO = Video([
-    (3.5, s1_hook),
-    (6.5, s2_prisma),
-    (7.0, s3_wellen),
-    (10.0, s4_streuung),
-    (6.0, s5_ueberall),
-    (8.0, s6_lila),
-    (8.5, s7_sunset),
-    (5.0, s8_outro),
+    (3.5, s1_hook, [(0.1, "Warum ist der Himmel blau?"),
+                    (1.7, "Und nicht lila?")]),
+    (6.5, s2_prisma, [(0.3, "Sonnenlicht sieht weiß aus."),
+                      (2.7, "Aber in Wahrheit ist es ein Mix aus allen Farben.")]),
+    (7.0, s3_wellen, [(0.2, "Jede Farbe ist eine Welle."),
+                      (1.8, "Rot hat lange Wellen."),
+                      (3.1, "Blau hat kurze."),
+                      (4.8, "Und genau das macht den Unterschied.")]),
+    (10.0, s4_streuung, [(0.3, "Die Luft ist voller winziger Teilchen."),
+                         (2.9, "Blaues Licht prallt daran ab, und wird in alle Richtungen verstreut."),
+                         (6.8, "Fast sechsmal stärker als rotes Licht!")]),
+    (4.6, s5_ueberall, [(0.4, "Deshalb kommt blaues Licht von überall am Himmel zu dir.")]),
+    (10.6, s6_lila, [(0.1, "Aber Moment! Violett wird sogar noch stärker gestreut."),
+                     (3.2, "Warum ist der Himmel dann nicht lila?"),
+                     (5.2, "Erstens: Die Sonne strahlt weniger Violett ab."),
+                     (7.8, "Zweitens: Unsere Augen sehen Blau viel besser.")]),
+    (8.8, s7_sunset, [(0.3, "Und beim Sonnenuntergang?"),
+                      (2.1, "Das Licht muss einen viel längeren Weg durch die Luft."),
+                      (4.7, "Das Blau ist unterwegs weggestreut. Rot und Orange bleiben übrig.")]),
+    (7.6, s8_outro, [(0.2, "Hättest du es gewusst?"),
+                     (1.7, "Folge für mehr: Warum eigentlich?"),
+                     (3.9, "Nächstes Mal: Warum sind Sonnenuntergänge auf dem Mars blau?")]),
 ])
 
 if __name__ == "__main__":
