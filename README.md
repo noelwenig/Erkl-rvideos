@@ -15,6 +15,7 @@ Andere Stimme: `EV_VOICE=kerstin`, Sprechtempo: `EV_SPEED=0.92` (kleiner = schne
 | 3 | Warum ist das Meer salzig? | `output/03_meer.mp4` | `videos/03_meer.md` |
 | 4 | Warum landen Katzen immer auf den Füßen? | `output/04_katze.mp4` | `videos/04_katze.md` |
 | 5 | Warum vergessen wir unsere Träume? | `output/05_traeume.mp4` | `videos/05_traeume.md` |
+| 6 | Warum fallen Flugzeuge nicht vom Himmel? | `output/06_flugzeug.mp4` | `videos/06_flugzeug.md` |
 
 ## Stimme
 - **ElevenLabs (Standard für TikTok):** `python3 videos/01_himmel_blau.py --elevenlabs`
