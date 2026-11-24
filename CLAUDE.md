@@ -13,6 +13,10 @@ Sprache mit dem Nutzer: Deutsch, einfach und ohne Fachjargon.
    - `*Wort*` in Untertiteln = gelb hervorgehoben; geschütztes Leerzeichen (` `) gegen Umbruch, z. B. „100 m“.
    - Eigene Farbwelt pro Folge, gleiche Schrift/Untertitel; Ende immer „Hättest du's gewusst? / Folge für mehr Warum eigentlich?“.
    - **Kein Ausblick auf das nächste Thema** (Wunsch des Nutzers).
+   - **Starker Einstieg (Hook)** nach Vorbild `videos/05_traeume.py`: erster Satz spricht den Zuschauer direkt
+     mit einer Überraschung an („Du hast heute Nacht …“), ab dem ersten Bild Bewegung + Untertitel
+     (`caption(..., -1, ...)`), kurzer Zoom `punch()`, Titelbild ≈ Anfangsbild.
+   - **Kein „Am Ende verrate ich dir …“-Satz** (Wunsch des Nutzers).
 4. Vorschau prüfen: `python3 videos/NN_thema.py --stills` (Bilder ansehen, Fehler beheben).
 5. Rendern: `python3 videos/NN_thema.py` → ElevenLabs-Stimme „Brian“, ganzer Text in einem Durchgang.
 6. `videos/NN_thema.md` (Sprechertext, Fakten/Quellen, TikTok-Beschreibung) anlegen, README-Tabelle ergänzen,
