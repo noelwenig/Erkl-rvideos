@@ -13,6 +13,7 @@ Andere Stimme: `EV_VOICE=kerstin`, Sprechtempo: `EV_SPEED=0.92` (kleiner = schne
 | 1 | Warum ist der Himmel blau? | `output/01_himmel_blau.mp4` | `videos/01_himmel_blau.md` |
 | 2 | Warum fühlt sich die Zeit schneller an? | `output/02_zeit.mp4` | `videos/02_zeit.md` |
 | 3 | Warum ist das Meer salzig? | `output/03_meer.mp4` | `videos/03_meer.md` |
+| 4 | Warum landen Katzen immer auf den Füßen? | `output/04_katze.mp4` | `videos/04_katze.md` |
 
 ## Stimme
 - **ElevenLabs (Standard für TikTok):** `python3 videos/01_himmel_blau.py --elevenlabs`
