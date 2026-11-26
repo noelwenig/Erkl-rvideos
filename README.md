@@ -21,6 +21,7 @@ Andere Stimme: `EV_VOICE=kerstin`, Sprechtempo: `EV_SPEED=0.92` (kleiner = schne
 | 9 | Warum frieren Fische im Winter nicht ein? | `output/09_fische.mp4` | `videos/09_fische.md` |
 | 10 | Warum sind die Zahlen auf der Dartscheibe so durcheinander? | `output/10_dart.mp4` | `videos/10_dart.md` |
 | 11 | Was wäre, wenn 5 Sekunden lang kein Sauerstoff da wäre? | `output/11_sauerstoff.mp4` | `videos/11_sauerstoff.md` |
+| 12 | Was wäre, wenn das Internet weltweit ausfällt? | `output/12_internet.mp4` | `videos/12_internet.md` |
 
 ## Stimme
 - **ElevenLabs (Standard für TikTok):** `python3 videos/01_himmel_blau.py --elevenlabs`
