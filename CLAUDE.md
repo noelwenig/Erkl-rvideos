@@ -16,6 +16,9 @@ Sprache mit dem Nutzer: Deutsch, einfach und ohne Fachjargon.
    - **Starker Einstieg (Hook)** nach Vorbild `videos/05_traeume.py`: erster Satz spricht den Zuschauer direkt
      mit einer Überraschung an („Du hast heute Nacht …“), ab dem ersten Bild Bewegung + Untertitel
      (`caption(..., -1, ...)`), kurzer Zoom `punch()`, Titelbild ≈ Anfangsbild.
+     Noch stärker (`videos/07_weltall.py`): Zuschauer in die Szene holen („Steig in eine Rakete.“),
+     Wackeln `hook_cam()`, und das Rätsel in den ersten 3 s *zeigen*, bevor die Frage kommt.
+     Gut ankommen (Nutzer-Favorit Folge 6): Staun-Zahl am Anfang + Alltagsbeispiel in der Mitte.
    - **Kein „Am Ende verrate ich dir …“-Satz** (Wunsch des Nutzers).
 4. Vorschau prüfen: `python3 videos/NN_thema.py --stills` (Bilder ansehen, Fehler beheben).
 5. Rendern: `python3 videos/NN_thema.py` → ElevenLabs-Stimme „Brian“, ganzer Text in einem Durchgang.
