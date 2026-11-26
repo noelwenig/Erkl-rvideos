@@ -15,6 +15,9 @@ VOICE = os.environ.get("EV_VOICE", "thorsten")
 EL_VOICE = os.environ.get("EV_EL_VOICE", "nPczCjzI2devNBz1zQrb")
 EL_MODEL = os.environ.get("EV_EL_MODEL", "eleven_v4")
 SPEED = float(os.environ.get("EV_SPEED", "0.92"))  # <1 = schneller
+# ElevenLabs: Aufnahme nachträglich beschleunigen (Tonhöhe bleibt), z. B. 1.12 = 12 % schneller.
+# Pro Video setzbar: `from ev import tts; tts.TEMPO = 1.12`
+TEMPO = float(os.environ.get("EV_TEMPO", "1.0"))
 CACHE = os.path.join(ROOT, "voices", "cache")
 
 _voice = None
@@ -126,6 +129,10 @@ def narrate(paragraphs):
     mp3 = base64.b64decode(res["audio_base64"])
     pcm = subprocess.run(["ffmpeg", "-loglevel", "error", "-i", "pipe:0", "-ac", "1", "-ar", "44100",
                           "-f", "s16le", "pipe:1"], input=mp3, capture_output=True, check=True).stdout
+    if abs(TEMPO - 1.0) > 1e-3:
+        pcm = subprocess.run(["ffmpeg", "-loglevel", "error", "-f", "s16le", "-ar", "44100", "-ac", "1",
+                              "-i", "pipe:0", "-af", f"atempo={TEMPO}", "-f", "s16le", "pipe:1"],
+                             input=pcm, capture_output=True, check=True).stdout
     data = np.frombuffer(pcm, np.int16)
     al = res.get("normalized_alignment") or res["alignment"]
     chars, st, en = al["characters"], al["character_start_times_seconds"], al["character_end_times_seconds"]
@@ -133,8 +140,8 @@ def narrate(paragraphs):
         al = res["alignment"]
         chars, st, en = al["characters"], al["character_start_times_seconds"], al["character_end_times_seconds"]
     assert "".join(chars) == text, "Zeitstempel passen nicht zum Text"
-    starts = [st[o] for o in offsets]
-    return data, 44100, starts, max(en)
+    starts = [st[o] / TEMPO for o in offsets]
+    return data, 44100, starts, max(en) / TEMPO
 
 
 def clips_for(cues):

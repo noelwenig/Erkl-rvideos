@@ -17,6 +17,7 @@ Andere Stimme: `EV_VOICE=kerstin`, Sprechtempo: `EV_SPEED=0.92` (kleiner = schne
 | 5 | Warum vergessen wir unsere Träume? | `output/05_traeume.mp4` | `videos/05_traeume.md` |
 | 6 | Warum fallen Flugzeuge nicht vom Himmel? | `output/06_flugzeug.mp4` | `videos/06_flugzeug.md` |
 | 7 | Warum ist es im Weltall dunkel, obwohl die Sonne scheint? | `output/07_weltall.mp4` | `videos/07_weltall.md` |
+| 8 | Was wäre, wenn die Erde aufhört, sich zu drehen? | `output/08_erde_stopp.mp4` | `videos/08_erde_stopp.md` |
 
 ## Stimme
 - **ElevenLabs (Standard für TikTok):** `python3 videos/01_himmel_blau.py --elevenlabs`

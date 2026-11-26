@@ -20,6 +20,10 @@ Sprache mit dem Nutzer: Deutsch, einfach und ohne Fachjargon.
      Wackeln `hook_cam()`, und das Rätsel in den ersten 3 s *zeigen*, bevor die Frage kommt.
      Gut ankommen (Nutzer-Favorit Folge 6): Staun-Zahl am Anfang + Alltagsbeispiel in der Mitte.
    - **Kein „Am Ende verrate ich dir …“-Satz** (Wunsch des Nutzers).
+   - **Kurzformat (seit Folge 8, Test):** Folge 7 hatte nur Ø 8,6 s Wiedergabezeit (2,4 % bis zum Ende).
+     Daher: ca. 30–40 s / ~600 Zeichen, erster Satz ≤ 3 s, kein Satz > ~5 s, neue Szene alle 3–5 s,
+     Stimme schneller (`tts.TEMPO = 1.12` im Video-Skript), letztes Bild = erstes Bild (Loop).
+     Optik/Stil bleibt gleich (gefällt dem Nutzer).
 4. Vorschau prüfen: `python3 videos/NN_thema.py --stills` (Bilder ansehen, Fehler beheben).
 5. Rendern: `python3 videos/NN_thema.py` → ElevenLabs-Stimme „Brian“, ganzer Text in einem Durchgang.
 6. `videos/NN_thema.md` (Sprechertext, Fakten/Quellen, TikTok-Beschreibung) anlegen, README-Tabelle ergänzen,
