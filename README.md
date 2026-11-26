@@ -19,6 +19,7 @@ Andere Stimme: `EV_VOICE=kerstin`, Sprechtempo: `EV_SPEED=0.92` (kleiner = schne
 | 7 | Warum ist es im Weltall dunkel, obwohl die Sonne scheint? | `output/07_weltall.mp4` | `videos/07_weltall.md` |
 | 8 | Was wäre, wenn die Erde aufhört, sich zu drehen? | `output/08_erde_stopp.mp4` | `videos/08_erde_stopp.md` |
 | 9 | Warum frieren Fische im Winter nicht ein? | `output/09_fische.mp4` | `videos/09_fische.md` |
+| 10 | Warum sind die Zahlen auf der Dartscheibe so durcheinander? | `output/10_dart.mp4` | `videos/10_dart.md` |
 
 ## Stimme
 - **ElevenLabs (Standard für TikTok):** `python3 videos/01_himmel_blau.py --elevenlabs`
